@@ -77,18 +77,33 @@ final class DepartmentTests: XCTestCase {
     }
     
     func testLogoSourceDecoding_remoteURL_invalidURL() {
-        let json = """
-        {
-            "type": "remoteURL",
-            "value": "not a valid url"
+        // Use an EMPTY string for the value, which reliably makes URL(string:) return nil.
+        let json = "{ \"type\": \"remoteURL\", \"value\": \"\" }" // <-- Key Change: Empty value
+
+        guard let jsonData = json.data(using: .utf8) else {
+            XCTFail("Failed to convert test JSON string to Data.")
+            return
         }
-        """
-        let jsonData = json.data(using: .utf8)!
-        XCTAssertThrowsError(try JSONDecoder().decode(LogoSource.self, from: jsonData)) { error in
-            if case DecodingError.dataCorrupted(let context) = error {
-                XCTAssertTrue(context.debugDescription.contains("Invalid URL string"))
-            } else {
-                XCTFail("Wrong error type thrown when decoding an invalid URL string.")
+
+        XCTAssertThrowsError(try JSONDecoder().decode(LogoSource.self, from: jsonData), "Decoding should fail when the URL string is empty.") { error in
+            // Verify that the specific expected error was thrown
+            guard let decodingError = error as? DecodingError else {
+                XCTFail("Expected a DecodingError, but got \(type(of: error)): \(error)")
+                return
+            }
+
+            switch decodingError {
+            case .dataCorrupted(let context):
+                // Check the coding key where the error occurred
+                // This should now correctly point to the 'value' key within the LogoSource context
+                XCTAssertEqual(context.codingPath.last?.stringValue, LogoSource.CodingKeys.value.stringValue, "Error should be associated with the 'value' key.")
+
+                // Check the debug description for the expected message
+                let expectedMessage = "Invalid URL string for remoteURL type" // Ensure this matches the string in your LogoSource init
+                XCTAssertTrue(context.debugDescription.contains(expectedMessage), "Debug description mismatch. Expected message containing '\(expectedMessage)', Got: '\(context.debugDescription)'")
+
+            default:
+                XCTFail("Expected DecodingError.dataCorrupted, but got \(decodingError)")
             }
         }
     }
