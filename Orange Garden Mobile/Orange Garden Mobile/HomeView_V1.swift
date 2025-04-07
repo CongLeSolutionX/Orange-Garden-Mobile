@@ -443,7 +443,7 @@ struct DepartmentCardView_Previews: PreviewProvider {
         DepartmentCardView(department: Department(
             name: "Preview Department Card",
             description: "Card preview description.", // Dummy description for card preview
-            logoSymbolName: "gear",
+            logoSymbolName: "My-meme-original",
             datasetCount: 25)
         )
             .padding()
