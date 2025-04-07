@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Dept of Finance (JSON)",
+    "description": "Develops and manages the state budget, advises the Governor on fiscal matters.",
+    "logoSource": {
+      "type": "sfSymbol",
+      "value": "dollarsign.square.fill"
+    },
+    "datasetCount": 150
+  },
+  {
+    "name": "Dept of Entertainments (JSON)",
+    "description": "Manages California's state parks and recreational areas.",
+    "logoSource": {
+      "type": "localAsset",
+      "value": "My-meme-original"
+    },
+    "datasetCount": 69
+  },
+  {
+    "name": "Dept of Food & Ag (JSON)",
+    "description": "Supports and promotes California's agricultural industry.",
+    "logoSource": {
+      "type": "remoteURL",
+      "value": "https://www.cdfa.ca.gov/agvision/"
+    },
+    "datasetCount": 42
+  },
+  {
+      "name": "Dept of Justice (JSON)",
+      "description": "Enforces laws, prosecutes crimes, and represents the state in legal matters.",
+      "logoSource": {
+          "type": "sfSymbol",
+          "value": "scalemass.fill"
+      },
+      "datasetCount": 95
+  }
+]
