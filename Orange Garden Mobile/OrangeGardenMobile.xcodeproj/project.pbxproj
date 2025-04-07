@@ -24,9 +24,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9A98F2A32DA374C100C08001 /* Orange Garden Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Orange Garden Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A98F2B32DA374C200C08001 /* Orange Garden MobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orange Garden MobileTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A98F2BD2DA374C200C08001 /* Orange Garden MobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Orange Garden MobileUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A98F2A32DA374C100C08001 /* OrangeGardenMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrangeGardenMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A98F2B32DA374C200C08001 /* OrangeGardenMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrangeGardenMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A98F2BD2DA374C200C08001 /* OrangeGardenMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrangeGardenMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -85,9 +85,9 @@
 		9A98F2A42DA374C100C08001 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9A98F2A32DA374C100C08001 /* Orange Garden Mobile.app */,
-				9A98F2B32DA374C200C08001 /* Orange Garden MobileTests.xctest */,
-				9A98F2BD2DA374C200C08001 /* Orange Garden MobileUITests.xctest */,
+				9A98F2A32DA374C100C08001 /* OrangeGardenMobile.app */,
+				9A98F2B32DA374C200C08001 /* OrangeGardenMobileTests.xctest */,
+				9A98F2BD2DA374C200C08001 /* OrangeGardenMobileUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9A98F2A22DA374C100C08001 /* Orange Garden Mobile */ = {
+		9A98F2A22DA374C100C08001 /* OrangeGardenMobile */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A98F2C72DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden Mobile" */;
+			buildConfigurationList = 9A98F2C72DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobile" */;
 			buildPhases = (
 				9A98F29F2DA374C100C08001 /* Sources */,
 				9A98F2A02DA374C100C08001 /* Frameworks */,
@@ -110,16 +110,16 @@
 			fileSystemSynchronizedGroups = (
 				9A98F2A52DA374C100C08001 /* Orange Garden Mobile */,
 			);
-			name = "Orange Garden Mobile";
+			name = OrangeGardenMobile;
 			packageProductDependencies = (
 			);
 			productName = "Orange Garden Mobile";
-			productReference = 9A98F2A32DA374C100C08001 /* Orange Garden Mobile.app */;
+			productReference = 9A98F2A32DA374C100C08001 /* OrangeGardenMobile.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9A98F2B22DA374C200C08001 /* Orange Garden MobileTests */ = {
+		9A98F2B22DA374C200C08001 /* OrangeGardenMobileTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A98F2CA2DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden MobileTests" */;
+			buildConfigurationList = 9A98F2CA2DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobileTests" */;
 			buildPhases = (
 				9A98F2AF2DA374C200C08001 /* Sources */,
 				9A98F2B02DA374C200C08001 /* Frameworks */,
@@ -133,16 +133,16 @@
 			fileSystemSynchronizedGroups = (
 				9A98F2B62DA374C200C08001 /* Orange Garden MobileTests */,
 			);
-			name = "Orange Garden MobileTests";
+			name = OrangeGardenMobileTests;
 			packageProductDependencies = (
 			);
 			productName = "Orange Garden MobileTests";
-			productReference = 9A98F2B32DA374C200C08001 /* Orange Garden MobileTests.xctest */;
+			productReference = 9A98F2B32DA374C200C08001 /* OrangeGardenMobileTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9A98F2BC2DA374C200C08001 /* Orange Garden MobileUITests */ = {
+		9A98F2BC2DA374C200C08001 /* OrangeGardenMobileUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A98F2CD2DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden MobileUITests" */;
+			buildConfigurationList = 9A98F2CD2DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobileUITests" */;
 			buildPhases = (
 				9A98F2B92DA374C200C08001 /* Sources */,
 				9A98F2BA2DA374C200C08001 /* Frameworks */,
@@ -156,11 +156,11 @@
 			fileSystemSynchronizedGroups = (
 				9A98F2C02DA374C200C08001 /* Orange Garden MobileUITests */,
 			);
-			name = "Orange Garden MobileUITests";
+			name = OrangeGardenMobileUITests;
 			packageProductDependencies = (
 			);
 			productName = "Orange Garden MobileUITests";
-			productReference = 9A98F2BD2DA374C200C08001 /* Orange Garden MobileUITests.xctest */;
+			productReference = 9A98F2BD2DA374C200C08001 /* OrangeGardenMobileUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9A98F29E2DA374C100C08001 /* Build configuration list for PBXProject "Orange Garden Mobile" */;
+			buildConfigurationList = 9A98F29E2DA374C100C08001 /* Build configuration list for PBXProject "OrangeGardenMobile" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,9 +200,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9A98F2A22DA374C100C08001 /* Orange Garden Mobile */,
-				9A98F2B22DA374C200C08001 /* Orange Garden MobileTests */,
-				9A98F2BC2DA374C200C08001 /* Orange Garden MobileUITests */,
+				9A98F2A22DA374C100C08001 /* OrangeGardenMobile */,
+				9A98F2B22DA374C200C08001 /* OrangeGardenMobileTests */,
+				9A98F2BC2DA374C200C08001 /* OrangeGardenMobileUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		9A98F2B52DA374C200C08001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9A98F2A22DA374C100C08001 /* Orange Garden Mobile */;
+			target = 9A98F2A22DA374C100C08001 /* OrangeGardenMobile */;
 			targetProxy = 9A98F2B42DA374C200C08001 /* PBXContainerItemProxy */;
 		};
 		9A98F2BF2DA374C200C08001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9A98F2A22DA374C100C08001 /* Orange Garden Mobile */;
+			target = 9A98F2A22DA374C100C08001 /* OrangeGardenMobile */;
 			targetProxy = 9A98F2BE2DA374C200C08001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -461,7 +461,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orange Garden Mobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Orange Garden Mobile";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeGardenMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrangeGardenMobile";
 			};
 			name = Debug;
 		};
@@ -480,7 +480,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Orange Garden Mobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Orange Garden Mobile";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeGardenMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrangeGardenMobile";
 			};
 			name = Release;
 		};
@@ -521,7 +521,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9A98F29E2DA374C100C08001 /* Build configuration list for PBXProject "Orange Garden Mobile" */ = {
+		9A98F29E2DA374C100C08001 /* Build configuration list for PBXProject "OrangeGardenMobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A98F2C52DA374C200C08001 /* Debug */,
@@ -530,7 +530,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A98F2C72DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden Mobile" */ = {
+		9A98F2C72DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A98F2C82DA374C200C08001 /* Debug */,
@@ -539,7 +539,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A98F2CA2DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden MobileTests" */ = {
+		9A98F2CA2DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobileTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A98F2CB2DA374C200C08001 /* Debug */,
@@ -548,7 +548,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A98F2CD2DA374C200C08001 /* Build configuration list for PBXNativeTarget "Orange Garden MobileUITests" */ = {
+		9A98F2CD2DA374C200C08001 /* Build configuration list for PBXNativeTarget "OrangeGardenMobileUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A98F2CE2DA374C200C08001 /* Debug */,
