@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Orange_Garden_Mobile
+@testable import OrangeGardenMobile
 
 final class Orange_Garden_MobileTests: XCTestCase {
 
