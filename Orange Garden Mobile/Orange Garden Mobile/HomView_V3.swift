@@ -416,10 +416,8 @@ struct HomeView_V1: View {
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
-                .onChange(of: currentLoadMode) { oldValue, newValue in
-                    if newValue != oldValue {
-                        Task { await loadDepartments() }
-                    }
+                .onChange(of: currentLoadMode) {
+                    Task { await loadDepartments() }
                 }
                 if isLoading {
                     ProgressView("Loading Departments...")
