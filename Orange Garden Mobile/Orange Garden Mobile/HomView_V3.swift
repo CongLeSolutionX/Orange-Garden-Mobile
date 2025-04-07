@@ -15,19 +15,19 @@ enum LogoSource: Hashable, Codable {
     case sfSymbol(name: String)
     case localAsset(name: String) // Assumes image is in Asset Catalog
     case remoteURL(url: URL)
-
+    
     // Coding keys for JSON decoding/encoding
     enum CodingKeys: String, CodingKey {
         case type
         case value
     }
-
+    
     // Custom Decodable Initializer
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         let value = try container.decode(String.self, forKey: .value)
-
+        
         switch type {
         case "sfSymbol":
             self = .sfSymbol(name: value)
@@ -42,7 +42,7 @@ enum LogoSource: Hashable, Codable {
             throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Invalid logo source type '\(type)'")
         }
     }
-
+    
     // Custom Encodable function
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -67,13 +67,13 @@ struct Department: Identifiable, Hashable, Codable {
     let description: String
     let logoSource: LogoSource // Replaces logoSymbolName
     let datasetCount: Int
-
+    
     // Make id non-codable or provide default for decoding if not in JSON
     enum CodingKeys: String, CodingKey {
         case name, description, logoSource, datasetCount
         // Exclude id from JSON, it will be generated on decode or passed if needed elsewhere
     }
-
+    
     // Custom initializer for decoding (generate UUID if not present)
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -83,7 +83,7 @@ struct Department: Identifiable, Hashable, Codable {
         self.logoSource = try container.decode(LogoSource.self, forKey: .logoSource)
         self.datasetCount = try container.decode(Int.self, forKey: .datasetCount)
     }
-
+    
     // Added explicit init for non-decoding scenarios & previews
     init(id: UUID = UUID(), name: String, description: String, logoSource: LogoSource, datasetCount: Int) {
         self.id = id
@@ -92,7 +92,7 @@ struct Department: Identifiable, Hashable, Codable {
         self.logoSource = logoSource
         self.datasetCount = datasetCount
     }
-
+    
     // Required for Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -173,16 +173,16 @@ struct DataService {
         "california emergency medical services authority": "Coordinates and integrates emergency medical services statewide.",
         "governor's office of business and economic development": "Serves as the state's lead entity for economic development and job creation efforts."
     ]
-
+    
     private static func makeDescriptionKey(from name: String) -> String {
         return name.lowercased().replacingOccurrences(of: "\n", with: " ")
     }
-
+    
     // --- Option 1: Fetch Mock/Generated Data Async (Original approach adapted) ---
     static func fetchGeneratedDepartmentsAsync() async throws -> [Department] {
         print("Starting asynchronous fetch for generated/mock data...")
         try await Task.sleep(for: .seconds(1.0)) // Shorter delay for mock data
-
+        
         // Base list demonstrating different LogoSource types
         // NOTE: Ensure 'california-flag' exists in your Asset Catalog for .localAsset
         // NOTE: Replace the placeholder URL with a real image URL for testing .remoteURL
@@ -194,36 +194,36 @@ struct DataService {
             ("Department\nof Water Resources", .localAsset(name: "ca-water-drop"), 546), // Example local asset
             ("Emergency Medical\nServices Authority", .sfSymbol(name: "staroflife.fill"), 3),
             ("Employment Development\nDepartment", .remoteURL(url: URL(string: "https://via.placeholder.com/150/0000FF/FFFFFF?Text=EDD")!), 17), // Example Remote URL
-             ("Dept of Education", .sfSymbol(name: "book.closed.fill"), 20),
-             ("Highway Patrol", .sfSymbol(name: "shield.lefthalf.filled"), 8),
-             ("Parks and Recreation", .localAsset(name: "california-flag"), 75) // Example local asset
+            ("Dept of Education", .sfSymbol(name: "book.closed.fill"), 20),
+            ("Highway Patrol", .sfSymbol(name: "shield.lefthalf.filled"), 8),
+            ("Parks and Recreation", .localAsset(name: "california-flag"), 75) // Example local asset
         ]
-
-         var generatedDepartments: [Department] = []
-         for deptData in baseDepartmentsRaw {
-             let key = makeDescriptionKey(from: deptData.name)
-             let lookupKey = key.contains("parks and recreation") ? "california state parks" : key
-             let description = departmentDescriptions[lookupKey] ?? "Description not available."
-
-             generatedDepartments.append(Department(
+        
+        var generatedDepartments: [Department] = []
+        for deptData in baseDepartmentsRaw {
+            let key = makeDescriptionKey(from: deptData.name)
+            let lookupKey = key.contains("parks and recreation") ? "california state parks" : key
+            let description = departmentDescriptions[lookupKey] ?? "Description not available."
+            
+            generatedDepartments.append(Department(
                 name: deptData.name,
                 description: description,
                 logoSource: deptData.logo, // Use the LogoSource directly
                 datasetCount: deptData.count
-             ))
-         }
-
+            ))
+        }
+        
         print("Generated/mock data fetch completed successfully.")
         return generatedDepartments // Return only base for simplicity, remove duplication loop
     }
-
+    
     // --- Option 2: Load Departments from Local JSON File ---
     enum JSONLoadError: Error, LocalizedError {
         case fileNotFound(String)
         case dataLoadingError(String)
         case decodingError(String, Error)
-
-         var errorDescription: String? {
+        
+        var errorDescription: String? {
             switch self {
             case .fileNotFound(let filename): return "JSON file '\(filename)' not found in bundle."
             case .dataLoadingError(let filename): return "Could not load data from JSON file '\(filename)'."
@@ -231,18 +231,18 @@ struct DataService {
             }
         }
     }
-
+    
     static func loadDepartmentsFromJSON(filename: String = "departments.json") async throws -> [Department] {
         print("Attempting to load departments from \(filename)...")
-
+        
         guard let url = Bundle.main.url(forResource: filename, withExtension: nil) else {
             throw JSONLoadError.fileNotFound(filename)
         }
-
+        
         guard let data = try? Data(contentsOf: url) else {
             throw JSONLoadError.dataLoadingError(filename)
         }
-
+        
         do {
             let decoder = JSONDecoder()
             let departments = try decoder.decode([Department].self, from: data)
@@ -260,7 +260,7 @@ struct DataService {
 struct LogoImageView: View {
     let source: LogoSource
     var size: CGFloat = 60 // Default size
-
+    
     var body: some View {
         Group {
             switch source {
@@ -304,22 +304,22 @@ struct LogoImageView: View {
 // Updated to use LogoImageView
 struct DepartmentCardView: View {
     let department: Department
-
+    
     var body: some View {
         VStack(spacing: 10) {
             LogoImageView(source: department.logoSource, size: 60) // Use the new view
                 .padding(.top)
-
+            
             Text(department.name)
                 .font(.headline)
                 .fontWeight(.medium)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-
+            
             Text("\(department.datasetCount) Dataset\(department.datasetCount == 1 ? "" : "s")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-
+            
             Spacer()
         }
         .padding()
@@ -334,43 +334,43 @@ struct DepartmentCardView: View {
 // Updated to use LogoImageView
 struct DepartmentDetailView: View {
     let department: Department
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 24) {
                 LogoImageView(source: department.logoSource, size: 120) // Use the new view with larger size
                     .padding(.top, 30)
-
+                
                 Text(department.name)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-
+                
                 HStack {
                     Image(systemName: "doc.text.fill")
                     Text("\(department.datasetCount) Dataset\(department.datasetCount == 1 ? "" : "s") Available")
                 }
                 .font(.title3)
                 .foregroundColor(.secondary)
-
+                
                 Divider()
                     .padding(.horizontal)
-
-                 VStack(alignment: .leading, spacing: 10) {
-                   Text("Function / Description")
-                         .font(.title2)
-                         .fontWeight(.semibold)
-                   Text(department.description)
-                         .font(.body)
-                 }
-                 .padding(.horizontal)
-
+                
                 VStack(alignment: .leading, spacing: 10) {
-                   Text("Additional Information")
+                    Text("Function / Description")
                         .font(.title2)
                         .fontWeight(.semibold)
-                   Text("This section could contain more details like key personnel, links to important resources, and access to specific open datasets managed by the \(department.name.replacingOccurrences(of: "\n", with: " ")).") // Cleaned up name here too
+                    Text(department.description)
+                        .font(.body)
+                }
+                .padding(.horizontal)
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Additional Information")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("This section could contain more details like key personnel, links to important resources, and access to specific open datasets managed by the \(department.name.replacingOccurrences(of: "\n", with: " ")).") // Cleaned up name here too
                         .font(.body)
                     Button("Visit Department Website (Placeholder)") {
                         print("Attempting to visit website for \(department.name.replacingOccurrences(of: "\n", with: " "))...")
@@ -379,7 +379,7 @@ struct DepartmentDetailView: View {
                     .padding(.top)
                 }
                 .padding(.horizontal)
-
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity)
@@ -396,30 +396,31 @@ struct HomeView_V1: View {
         case generatedAsync // Original mock/generated data fetch
         case fromJSON       // Load from local JSON file
     }
-
+    
     let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150, maximum: 200))
     ]
-
+    
     @State private var departments: [Department] = []
     @State private var isLoading: Bool = false
     @State private var errorMessage: String? = nil
     @State private var currentLoadMode: LoadMode = .generatedAsync // Default load mode
-
+    
     var body: some View {
         NavigationView {
             VStack { // Encapsulate content and potential pickers/buttons
                 // Optional: Add a Picker to switch load modes
-                 Picker("Load Data From", selection: $currentLoadMode) {
-                     Text("Generated Async").tag(LoadMode.generatedAsync)
-                     Text("Local JSON").tag(LoadMode.fromJSON)
-                 }
-                 .pickerStyle(.segmented)
-                 .padding(.horizontal)
-                 .onChange(of: currentLoadMode) { _ in // Reload when mode changes
-                     Task { await loadDepartments() }
-                 }
-
+                Picker("Load Data From", selection: $currentLoadMode) {
+                    Text("Generated Async").tag(LoadMode.generatedAsync)
+                    Text("Local JSON").tag(LoadMode.fromJSON)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .onChange(of: currentLoadMode) { oldValue, newValue in
+                    if newValue != oldValue {
+                        Task { await loadDepartments() }
+                    }
+                }
                 if isLoading {
                     ProgressView("Loading Departments...")
                         .scaleEffect(1.5)
@@ -428,28 +429,28 @@ struct HomeView_V1: View {
                 } else if let errorMsg = errorMessage {
                     VStack(spacing: 20) {
                         Image(systemName: "exclamationmark.triangle.fill")
-                             .resizable().scaledToFit().frame(width: 60, height: 60).foregroundColor(.red)
+                            .resizable().scaledToFit().frame(width: 60, height: 60).foregroundColor(.red)
                         Text("Failed to load departments").font(.title2).multilineTextAlignment(.center)
                         Text(errorMsg).font(.body).foregroundColor(.secondary).multilineTextAlignment(.center)
                         Button("Retry") {
-                             Task { await loadDepartments() } // Use consistent load method
-                         }
-                         .buttonStyle(.borderedProminent).padding(.top)
+                            Task { await loadDepartments() } // Use consistent load method
+                        }
+                        .buttonStyle(.borderedProminent).padding(.top)
                     }
                     .padding()
                     .frame(maxHeight: .infinity) // Center Error message
                 } else if departments.isEmpty {
                     Text("No departments found.")
                         .foregroundColor(.secondary)
-                         .frame(maxHeight: .infinity) // Center text
+                        .frame(maxHeight: .infinity) // Center text
                 } else {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 20) {
-                             ForEach(departments) { department in
-                                 NavigationLink(destination: DepartmentDetailView(department: department)) {
-                                     DepartmentCardView(department: department)
-                                 }
-                                 .buttonStyle(.plain)
+                            ForEach(departments) { department in
+                                NavigationLink(destination: DepartmentDetailView(department: department)) {
+                                    DepartmentCardView(department: department)
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                         .padding()
@@ -458,23 +459,23 @@ struct HomeView_V1: View {
             }
             .navigationTitle("CA Departments")
             .task {
-                 if departments.isEmpty { // Load on initial appearance
-                     await loadDepartments()
-                 }
+                if departments.isEmpty { // Load on initial appearance
+                    await loadDepartments()
+                }
             }
-             .refreshable { // Pull-to-refresh triggers load based on current mode
-                  await loadDepartments()
-             }
+            .refreshable { // Pull-to-refresh triggers load based on current mode
+                await loadDepartments()
+            }
         }
     }
-
+    
     // Updated load function to handle different modes
     private func loadDepartments() async {
         guard !isLoading else { return }
-
+        
         isLoading = true
         errorMessage = nil
-
+        
         do {
             let fetchedDepartments: [Department]
             switch currentLoadMode {
@@ -484,17 +485,17 @@ struct HomeView_V1: View {
                 // Remember to add departments.json to your project and target!
                 fetchedDepartments = try await DataService.loadDepartmentsFromJSON(filename: "departments.json")
             }
-
+            
             await MainActor.run {
-                 self.departments = fetchedDepartments
+                self.departments = fetchedDepartments
                 self.isLoading = false
             }
         } catch {
             await MainActor.run {
-                 // Use the localized description from our custom error or standard errors
+                // Use the localized description from our custom error or standard errors
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
-                 self.departments = [] // Clear data on error
+                self.departments = [] // Clear data on error
             }
             print("Error occurred during fetch (\(currentLoadMode)): \(error)")
         }
@@ -518,76 +519,76 @@ struct DepartmentDetailView_Previews: PreviewProvider {
 
 struct ContentView_Previews: PreviewProvider {
     static let previewDepts: [Department] = [
-         Department(name: "Preview SF Symbol", description: "Task A.", logoSource: .sfSymbol(name: "star.fill"), datasetCount: 10),
-         Department(name: "Preview Local Asset", description: "Resource B.", logoSource: .localAsset(name: "california-flag"), datasetCount: 5), // Make sure 'california-flag' exists
-         Department(name: "Preview Remote URL", description: "Item C.", logoSource: .remoteURL(url: URL(string:"https://via.placeholder.com/100")!), datasetCount: 0),
-         Department(name: "Another SF Symbol", description: "Process D.", logoSource: .sfSymbol(name: "car.fill"), datasetCount: 99),
+        Department(name: "Preview SF Symbol", description: "Task A.", logoSource: .sfSymbol(name: "star.fill"), datasetCount: 10),
+        Department(name: "Preview Local Asset", description: "Resource B.", logoSource: .localAsset(name: "california-flag"), datasetCount: 5), // Make sure 'california-flag' exists
+        Department(name: "Preview Remote URL", description: "Item C.", logoSource: .remoteURL(url: URL(string:"https://via.placeholder.com/100")!), datasetCount: 0),
+        Department(name: "Another SF Symbol", description: "Process D.", logoSource: .sfSymbol(name: "car.fill"), datasetCount: 99),
     ]
-
+    
     static var previews: some View {
         // Default Previews (Now uses updated init)
         HomeView_V1(loadMode: .generatedAsync) // Preview async loading
             .previewDisplayName("Default - Async Gen")
-
-         HomeView_V1(loadMode: .fromJSON) // Preview JSON loading (will fail if file not present/valid)
-             .previewDisplayName("Default - JSON Load")
-
+        
+        HomeView_V1(loadMode: .fromJSON) // Preview JSON loading (will fail if file not present/valid)
+            .previewDisplayName("Default - JSON Load")
+        
         // Specific State Previews
         HomeView_V1(departments: previewDepts)
             .previewDisplayName("Loaded State (Mixed Logos)")
-
+        
         HomeView_V1(errorMessage: "Network connection lost. Could not fetch remote logo.")
             .previewDisplayName("Error State")
-
+        
         HomeView_V1(isLoading: true)
             .previewDisplayName("Loading State")
-
+        
         HomeView_V1(departments: [])
-             .previewDisplayName("Empty State")
+            .previewDisplayName("Empty State")
     }
 }
 
 // Updated Extension with init accepting loadMode for previews
 extension HomeView_V1 {
-     init(departments: [Department]) {
-         _departments = State(initialValue: departments)
-         _isLoading = State(initialValue: false)
-         _errorMessage = State(initialValue: nil)
-         _currentLoadMode = State(initialValue: .generatedAsync) // Default mode for this state
-     }
-     init(errorMessage: String) {
-         _departments = State(initialValue: [])
-         _isLoading = State(initialValue: false)
-         _errorMessage = State(initialValue: errorMessage)
-          _currentLoadMode = State(initialValue: .generatedAsync)
-     }
-     init(isLoading: Bool) {
-         _departments = State(initialValue: [])
-         _isLoading = State(initialValue: isLoading)
-         _errorMessage = State(initialValue: nil)
-         _currentLoadMode = State(initialValue: .generatedAsync)
-     }
-     // Added init to explicitly set load mode for previewing different load paths
-     init(loadMode: LoadMode) {
-         _departments = State(initialValue: [])
-         _isLoading = State(initialValue: true) // Start in loading for loadMode previews
-         _errorMessage = State(initialValue: nil)
-         _currentLoadMode = State(initialValue: loadMode)
-     }
- }
+    init(departments: [Department]) {
+        _departments = State(initialValue: departments)
+        _isLoading = State(initialValue: false)
+        _errorMessage = State(initialValue: nil)
+        _currentLoadMode = State(initialValue: .generatedAsync) // Default mode for this state
+    }
+    init(errorMessage: String) {
+        _departments = State(initialValue: [])
+        _isLoading = State(initialValue: false)
+        _errorMessage = State(initialValue: errorMessage)
+        _currentLoadMode = State(initialValue: .generatedAsync)
+    }
+    init(isLoading: Bool) {
+        _departments = State(initialValue: [])
+        _isLoading = State(initialValue: isLoading)
+        _errorMessage = State(initialValue: nil)
+        _currentLoadMode = State(initialValue: .generatedAsync)
+    }
+    // Added init to explicitly set load mode for previewing different load paths
+    init(loadMode: LoadMode) {
+        _departments = State(initialValue: [])
+        _isLoading = State(initialValue: true) // Start in loading for loadMode previews
+        _errorMessage = State(initialValue: nil)
+        _currentLoadMode = State(initialValue: loadMode)
+    }
+}
 
 struct DepartmentCardView_Previews: PreviewProvider {
     static var previews: some View {
-         let dept1 = Department(name: "Card Preview SF Symbol", description: "Card preview desc.", logoSource: .sfSymbol(name: "paintbrush.pointed.fill"), datasetCount: 25)
-         let dept2 = Department(name: "Card Preview Local", description: "Card preview desc.", logoSource: .localAsset(name: "california-flag"), datasetCount: 5) // Ensure asset exists
-         let dept3 = Department(name: "Card Preview Remote", description: "Card preview desc.", logoSource: .remoteURL(url:URL(string:"https://via.placeholder.com/100")!), datasetCount: 0)
-
-         Group {
-             DepartmentCardView(department: dept1)
-             DepartmentCardView(department: dept2)
-             DepartmentCardView(department: dept3)
-         }
-         .padding()
-         .previewLayout(.sizeThatFits)
+        let dept1 = Department(name: "Card Preview SF Symbol", description: "Card preview desc.", logoSource: .sfSymbol(name: "paintbrush.pointed.fill"), datasetCount: 25)
+        let dept2 = Department(name: "Card Preview Local", description: "Card preview desc.", logoSource: .localAsset(name: "california-flag"), datasetCount: 5) // Ensure asset exists
+        let dept3 = Department(name: "Card Preview Remote", description: "Card preview desc.", logoSource: .remoteURL(url:URL(string:"https://via.placeholder.com/100")!), datasetCount: 0)
+        
+        Group {
+            DepartmentCardView(department: dept1)
+            DepartmentCardView(department: dept2)
+            DepartmentCardView(department: dept3)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
 }
